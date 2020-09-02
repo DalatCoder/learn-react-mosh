@@ -21,14 +21,19 @@ class Movies extends Component {
 
   render() {
     const count = this.state.movies.length;
-    const heading =
-      count > 0
-        ? `There is ${count} movies in the database`
-        : 'There is no movie in the database';
+
+    if (count === 0)
+      return (
+        <p className="lead my-4 text-center text-danger">
+          There is no movies in the database.
+        </p>
+      );
 
     return (
       <Fragment>
-        <p className="lead my-4 text-center">{heading}</p>
+        <p className="lead my-4 text-center">
+          Showing {count} movies in the database.
+        </p>
         <table className="table table-striped">
           <thead className="table-dark">
             <tr>
