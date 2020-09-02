@@ -11,6 +11,33 @@ class Counters extends React.Component {
     ],
   };
 
+  handleReset = () => {
+    console.log('ali');
+    this.setState((st) => ({
+      counters: st.counters.map((counter) => ({ ...counter, value: 0 })),
+    }));
+  };
+
+  handleIncrement = (counter) => {
+    this.setState((st) => ({
+      counters: st.counters.map((ct) =>
+        ct.id !== counter.id ? ct : { ...ct, value: ct.value++ }
+      ),
+    }));
+  };
+
+  handleDecrement = (counter) => {
+    this.setState((st) => ({
+      counters: st.counters.map((ct) =>
+        ct.id !== counter.id
+          ? ct
+          : ct.value > 0
+          ? { ...ct, value: ct.value-- }
+          : ct
+      ),
+    }));
+  };
+
   handleDelete = (counterId) => {
     this.setState((st) => ({
       counters: st.counters.filter((ct) => ct.id !== counterId),
@@ -20,10 +47,18 @@ class Counters extends React.Component {
   render() {
     return (
       <div>
+        <button
+          onClick={this.handleReset}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
         {this.state.counters.map((counter) => (
           <Counter
             key={counter.id}
             onDelete={this.handleDelete}
+            onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             counter={counter}
           />
         ))}
