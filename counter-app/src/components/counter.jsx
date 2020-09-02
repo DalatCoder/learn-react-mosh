@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Counter extends Component {
   state = {
-    value: this.props.value,
+    value: this.props.counter.value,
   };
 
   handleIncrement = () => {
@@ -11,6 +11,10 @@ class Counter extends Component {
 
   handleDecrement = () => {
     this.setState((st) => ({ value: st.value - 1 }));
+  };
+
+  handleDelete = () => {
+    this.props.onDelete(this.props.counter.id);
   };
 
   render() {
@@ -25,10 +29,16 @@ class Counter extends Component {
         </button>
         <button
           onClick={this.handleDecrement}
-          className="btn btn-danger btn-sm m-2"
+          className="btn btn-outline-secondary btn-sm m-2"
           disabled={this.state.value === 0}
         >
           Decrement
+        </button>
+        <button
+          onClick={this.handleDelete}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
         </button>
       </div>
     );
