@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { getMovies } from '../services/fakeMovieService.js';
 
 // Components
@@ -20,27 +20,41 @@ class Movies extends Component {
   };
 
   render() {
+    const count = this.state.movies.length;
+
+    if (count === 0)
+      return (
+        <p className="lead my-4 text-center text-danger">
+          There is no movies in the database.
+        </p>
+      );
+
     return (
-      <table className="table table-striped">
-        <thead className="table-dark">
-          <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Stock</th>
-            <th>Rate</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.movies.map((movie) => (
-            <MovieItem
-              key={movie._id}
-              delete={this.handleDelete}
-              movie={movie}
-            />
-          ))}
-        </tbody>
-      </table>
+      <Fragment>
+        <p className="lead my-4 text-center">
+          Showing {count} movies in the database.
+        </p>
+        <table className="table table-striped">
+          <thead className="table-dark">
+            <tr>
+              <th>Title</th>
+              <th>Genre</th>
+              <th>Stock</th>
+              <th>Rate</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.movies.map((movie) => (
+              <MovieItem
+                key={movie._id}
+                delete={this.handleDelete}
+                movie={movie}
+              />
+            ))}
+          </tbody>
+        </table>
+      </Fragment>
     );
   }
 }

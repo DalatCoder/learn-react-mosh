@@ -13,6 +13,7 @@ class MovieItem extends Component {
       numberInStock,
       dailyRentalRate,
     } = this.props.movie;
+
     return (
       <tr>
         <td>{title}</td>
