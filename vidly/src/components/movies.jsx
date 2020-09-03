@@ -1,16 +1,27 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService.js';
+import { getGenres } from '../services/fakeGenreService.js';
+import { paginate } from '../utils/paginate';
+import _ from 'lodash';
 
 // Components
-import MovieItem from './MovieItem';
+import MoviesTable from './moviesTable';
+import Pagination from './common/pagination';
+import ListGroup from './common/listgroup';
 
 class Movies extends Component {
   state = {
     movies: [],
+    genres: [],
+    pageSize: 4,
+    currentPage: 1,
+    sortColumn: { path: 'title', order: 'asc' },
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies() });
+    const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
+
+    this.setState({ movies: getMovies(), genres });
   }
 
   handleLike = ({ _id }) => {
@@ -27,44 +38,70 @@ class Movies extends Component {
     }));
   };
 
+  handlePageChange = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
+  handleGenreSelect = (genre) => {
+    this.setState({ selectedGenre: genre, currentPage: 1 });
+  };
+
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
   render() {
-    const count = this.state.movies.length;
+    const { length: count } = this.state.movies;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      sortColumn,
+      movies: allMovies,
+    } = this.state;
 
     if (count === 0)
       return (
-        <p className="lead my-4 text-center text-danger">
+        <p className="my-4 text-center text-danger">
           There is no movies in the database.
         </p>
       );
 
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
+
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
+
     return (
-      <Fragment>
-        <p className="lead my-4 text-center">
-          Showing {count} movies in the database.
-        </p>
-        <table className="table table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Stock</th>
-              <th>Rate</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.movies.map((movie) => (
-              <MovieItem
-                key={movie._id}
-                onDelete={this.handleDelete}
-                onLike={this.handleLike}
-                movie={movie}
-              />
-            ))}
-          </tbody>
-        </table>
-      </Fragment>
+      <div className="row">
+        <div className="col-md-3 mt-4">
+          <ListGroup
+            items={this.state.genres}
+            selectedItem={this.state.selectedGenre}
+            onItemSelect={this.handleGenreSelect}
+          />
+        </div>
+        <div className="col mt-4">
+          <p>Showing {filtered.length} movies in the database.</p>
+          <MoviesTable
+            movies={movies}
+            sortColumn={sortColumn}
+            onLike={this.handleLike}
+            onSort={this.handleSort}
+            onDelete={this.handleDelete}
+          />
+          <Pagination
+            itemsCount={filtered.length}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
+      </div>
     );
   }
 }
