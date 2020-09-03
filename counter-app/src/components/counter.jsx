@@ -15,27 +15,28 @@ class Counter extends Component {
 
   render() {
     return (
-      <div>
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          onClick={this.handleIncrement}
-          className="btn btn-secondary btn-sm m-2"
-        >
-          Increment
-        </button>
-        <button
-          onClick={this.handleDecrement}
-          className="btn btn-outline-secondary btn-sm m-2"
-          disabled={this.props.counter.value === 0}
-        >
-          Decrement
-        </button>
-        <button
-          onClick={this.handleDelete}
-          className="btn btn-danger btn-sm m-2"
-        >
-          Delete
-        </button>
+      <div className="row">
+        <div className="col-1 mr-2">
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={this.handleIncrement}
+            className="btn btn-secondary btn-sm"
+          >
+            <span>+</span>
+          </button>
+          <button
+            onClick={this.handleDecrement}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0}
+          >
+            <span>-</span>
+          </button>
+          <button onClick={this.handleDelete} className="btn btn-danger btn-sm">
+            <span>x</span>
+          </button>
+        </div>
       </div>
     );
   }
