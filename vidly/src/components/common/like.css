@@ -1,0 +1,7 @@
+.Like {
+  cursor: pointer;
+}
+
+.Like .fa.fa-heart {
+  color: #333;
+}

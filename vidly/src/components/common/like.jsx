@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import './like.css';
 
 // Input: liked: boolean
 // Output: onClick
@@ -12,11 +13,9 @@ const Like = ({ liked, movie, onClick }) => {
   if (!liked) classes += '-o';
 
   return (
-    <i
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-      className={classes}
-    ></i>
+    <div className="Like">
+      <i onClick={handleClick} className={classes}></i>
+    </div>
   );
 };
 
