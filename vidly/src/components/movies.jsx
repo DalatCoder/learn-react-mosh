@@ -53,11 +53,6 @@ class Movies extends Component {
       movies: allMovies,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
-
     if (count === 0)
       return (
         <p className="my-4 text-center text-danger">
@@ -65,21 +60,24 @@ class Movies extends Component {
         </p>
       );
 
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
+
     const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
-        <div className="col-md-3 mt-4 mb-3">
+        <div className="col-md-3 mt-4">
           <ListGroup
             items={this.state.genres}
             selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
-        <div className="col">
-          <p className="my-4 text-center">
-            Showing {filtered.length} movies in the database.
-          </p>
+        <div className="col mt-4">
+          <p>Showing {filtered.length} movies in the database.</p>
           <MoviesTable
             movies={movies}
             onLike={this.handleLike}
