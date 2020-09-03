@@ -13,6 +13,14 @@ class Movies extends Component {
     this.setState({ movies: getMovies() });
   }
 
+  handleLike = ({ _id }) => {
+    this.setState((st) => ({
+      movies: st.movies.map((movie) =>
+        movie._id !== _id ? movie : { ...movie, liked: !movie.liked }
+      ),
+    }));
+  };
+
   handleDelete = ({ _id }) => {
     this.setState((st) => ({
       movies: st.movies.filter((m) => m._id !== _id),
@@ -42,13 +50,15 @@ class Movies extends Component {
               <th>Stock</th>
               <th>Rate</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {this.state.movies.map((movie) => (
               <MovieItem
                 key={movie._id}
-                delete={this.handleDelete}
+                onDelete={this.handleDelete}
+                onLike={this.handleLike}
                 movie={movie}
               />
             ))}
