@@ -7,6 +7,8 @@ class Counters extends React.Component {
   };
 
   render() {
+    const { counters, onDelete, onIncrement, onDecrement } = this.props;
+
     return (
       <div>
         <button
@@ -15,12 +17,12 @@ class Counters extends React.Component {
         >
           Reset
         </button>
-        {this.props.counters.map((counter) => (
+        {counters.map((counter) => (
           <Counter
             key={counter.id}
-            onDelete={this.props.onDelete}
-            onIncrement={this.props.onIncrement}
-            onDecrement={this.props.onDecrement}
+            onDelete={onDelete}
+            onIncrement={onIncrement}
+            onDecrement={onDecrement}
             counter={counter}
           />
         ))}
