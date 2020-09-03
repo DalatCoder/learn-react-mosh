@@ -3,10 +3,13 @@ import { getMovies } from '../services/fakeMovieService.js';
 
 // Components
 import MovieItem from './MovieItem';
+import Pagination from './common/pagination';
 
 class Movies extends Component {
   state = {
     movies: [],
+    pageSize: 4,
+    currentPage: 1,
   };
 
   componentDidMount() {
@@ -27,8 +30,13 @@ class Movies extends Component {
     }));
   };
 
+  handlePageChange = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
   render() {
-    const count = this.state.movies.length;
+    const { length: count } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
 
     if (count === 0)
       return (
@@ -64,6 +72,12 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </Fragment>
     );
   }
