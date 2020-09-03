@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { getMovies } from '../services/fakeMovieService.js';
+import { paginate } from '../utils/paginate';
 
 // Components
 import MovieItem from './MovieItem';
@@ -36,7 +37,7 @@ class Movies extends Component {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, movies: allMovies } = this.state;
 
     if (count === 0)
       return (
@@ -44,6 +45,8 @@ class Movies extends Component {
           There is no movies in the database.
         </p>
       );
+
+    const movies = paginate(allMovies, currentPage, pageSize);
 
     return (
       <Fragment>
@@ -62,7 +65,7 @@ class Movies extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((movie) => (
+            {movies.map((movie) => (
               <MovieItem
                 key={movie._id}
                 onDelete={this.handleDelete}
