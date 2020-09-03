@@ -1,9 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
+import Like from './common/like';
 
 class MovieItem extends Component {
   handleClick = () => {
-    this.props.delete(this.props.movie);
+    this.props.onDelete(this.props.movie);
   };
 
   render() {
@@ -12,6 +13,7 @@ class MovieItem extends Component {
       genre: { name },
       numberInStock,
       dailyRentalRate,
+      liked,
     } = this.props.movie;
 
     return (
@@ -20,6 +22,13 @@ class MovieItem extends Component {
         <td>{name}</td>
         <td>{numberInStock}</td>
         <td>{dailyRentalRate}</td>
+        <td>
+          <Like
+            liked={liked}
+            movie={this.props.movie}
+            onClick={this.props.onLike}
+          />
+        </td>
         <td>
           <button onClick={this.handleClick} className="btn btn-danger btn-sm">
             Delete
