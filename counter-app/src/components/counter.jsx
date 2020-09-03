@@ -1,48 +1,55 @@
 import React, { Component } from 'react';
 
 class Counter extends Component {
-  state = {
-    count: 0,
-  };
-
   handleIncrement = () => {
-    this.setState((st) => ({ count: st.count + 1 }));
+    this.props.onIncrement(this.props.counter);
   };
 
   handleDecrement = () => {
-    this.setState((st) => ({ count: st.count - 1 }));
+    this.props.onDecrement(this.props.counter);
+  };
+
+  handleDelete = () => {
+    this.props.onDelete(this.props.counter.id);
   };
 
   render() {
     return (
-      <React.Fragment>
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          onClick={this.handleIncrement}
-          className="btn btn-secondary btn-sm m-2"
-        >
-          Increment
-        </button>
-        <button
-          onClick={this.handleDecrement}
-          className="btn btn-danger btn-sm m-2"
-          disabled={this.state.count === 0}
-        >
-          Decrement
-        </button>
-      </React.Fragment>
+      <div className="row">
+        <div className="col-1 mr-2">
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={this.handleIncrement}
+            className="btn btn-secondary btn-sm"
+          >
+            <span>+</span>
+          </button>
+          <button
+            onClick={this.handleDecrement}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0}
+          >
+            <span>-</span>
+          </button>
+          <button onClick={this.handleDelete} className="btn btn-danger btn-sm">
+            <span>x</span>
+          </button>
+        </div>
+      </div>
     );
   }
 
   getBadgeClasses() {
     let classes = 'badge m-2 badge-';
-    classes += this.state.count === 0 ? 'warning' : 'primary';
+    classes += this.props.counter.value === 0 ? 'warning' : 'primary';
     return classes;
   }
 
   formatCount() {
-    const { count } = this.state;
-    return count === 0 ? 'Zero' : count;
+    const { value } = this.props.counter;
+    return value === 0 ? 'Zero' : value;
   }
 }
 
