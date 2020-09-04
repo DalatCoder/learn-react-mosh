@@ -15,7 +15,7 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
-    sortColumn: { path: 'title', order: 'asc' },
+    sortColumn: { path: 'title', order: 'asc' }, // for _.orderBy(collection, ['title'], ['asc'])
   };
 
   componentDidMount() {
@@ -67,6 +67,7 @@ class Movies extends Component {
         </p>
       );
 
+    // Default: All Genres doesn't have a valid genre._id: { _id: '', name: 'All Genres' } => All movies
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
@@ -87,13 +88,15 @@ class Movies extends Component {
         </div>
         <div className="col mt-4">
           <p>Showing {filtered.length} movies in the database.</p>
-          <MoviesTable
-            movies={movies}
-            sortColumn={sortColumn}
-            onLike={this.handleLike}
-            onSort={this.handleSort}
-            onDelete={this.handleDelete}
-          />
+          {filtered.length > 0 && (
+            <MoviesTable
+              movies={movies}
+              sortColumn={sortColumn}
+              onLike={this.handleLike}
+              onSort={this.handleSort}
+              onDelete={this.handleDelete}
+            />
+          )}
           <Pagination
             itemsCount={filtered.length}
             pageSize={pageSize}

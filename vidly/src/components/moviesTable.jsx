@@ -36,11 +36,7 @@ class MoviesTable extends Component {
               <td>{movie.numberInStock}</td>
               <td>{movie.dailyRentalRate}</td>
               <td>
-                <Like
-                  liked={movie.liked}
-                  movie={movie}
-                  onClick={() => onLike(movie)}
-                />
+                <Like liked={movie.liked} movie={movie} onClick={onLike} />
               </td>
               <td>
                 <button
