@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 const NavBar = () => (
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
+  <nav className="navbar navbar-expand-md navbar-light bg-light">
     <div className="container">
       <Link className="navbar-brand" to="/">
         Vidly
@@ -11,11 +11,11 @@ const NavBar = () => (
         className="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbar"
+        data-target="#main-navbar"
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse">
+      <div className="collapse navbar-collapse" id="main-navbar">
         <div className="navbar-nav ml-auto">
           <NavLink className="nav-item nav-link" to="/movies">
             Movies
